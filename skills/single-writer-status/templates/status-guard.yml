@@ -1,0 +1,51 @@
+# Copy to .github/workflows/status-guard.yml in your project.
+# Fails a pull request that edits the status file without the roll-up label,
+# or whose description has no "For STATUS" section.
+name: status-guard
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  status-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check the status file and the For STATUS section
+        env:
+          STATUS_FILE: STATUS.md
+          ROLLUP_LABEL: status-rollup
+          BODY: ${{ github.event.pull_request.body }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          case ",$LABELS," in
+            *",$ROLLUP_LABEL,"*) echo "Roll-up pull request: nothing to check."; exit 0 ;;
+          esac
+          if git diff --name-only "$BASE...$HEAD" | grep -qxF "$STATUS_FILE"; then
+            echo "::error::This pull request edits $STATUS_FILE. Leave a 'For STATUS' sentence in the description instead; the status writer folds it in."
+            exit 1
+          fi
+          # Text under the "For STATUS" heading, without HTML comments (the template's hint).
+          sentence=$(printf '%s\n' "$BODY" | tr -d '\r' | awk '
+            function uncomment(l,  out, p) { out = ""
+              while (length(l) > 0) {
+                if (inc) { p = index(l, "-->"); if (!p) return out; l = substr(l, p + 3); inc = 0 }
+                else { p = index(l, "<!--"); if (!p) { out = out l; break }; out = out substr(l, 1, p - 1); l = substr(l, p + 4); inc = 1 } }
+              return out }
+            { line = uncomment($0) }
+            line ~ /^#+[[:space:]]/ { if (in_s) exit; t = tolower(line); if (t ~ /^#+[[:space:]]+for status[[:space:]:#]*$/) in_s = 1; next }
+            in_s && line ~ /[^[:space:]]/ { print line }')
+          if [ -z "$sentence" ]; then
+            echo "::error::Fill the '## For STATUS' section of the description: one sentence, or 'Nothing for STATUS'."
+            exit 1
+          fi
+          echo "Status file untouched and For STATUS section present."

@@ -1,0 +1,15 @@
+{
+  "name": "agent-team-guardrails",
+  "description": "Guardrails for teams of AI agents working on GitHub.",
+  "owner": {
+    "name": "AurelienAr",
+    "url": "https://github.com/AurelienAr"
+  },
+  "plugins": [
+    {
+      "name": "agent-team-guardrails",
+      "source": "./",
+      "description": "Guardrails for running a team of AI agents on GitHub without losing control: real human approvals, no conflicts on the shared status file, and an advisor that raises the questions nobody asked."
+    }
+  ]
+}

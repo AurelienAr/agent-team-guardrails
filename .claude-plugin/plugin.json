@@ -1,0 +1,19 @@
+{
+  "name": "agent-team-guardrails",
+  "displayName": "Agent Team Guardrails",
+  "version": "0.1.0",
+  "description": "Guardrails for running a team of AI agents on GitHub without losing control: real human approvals, no conflicts on the shared status file, and an advisor that raises the questions nobody asked.",
+  "author": { "name": "AurelienAr", "url": "https://github.com/AurelienAr" },
+  "homepage": "https://github.com/AurelienAr/agent-team-guardrails",
+  "repository": "https://github.com/AurelienAr/agent-team-guardrails",
+  "license": "MIT",
+  "keywords": ["agents", "multi-agent", "github", "governance", "approvals", "code-review", "skills"],
+  "userConfig": {
+    "human_approvers": {
+      "type": "string",
+      "title": "Human approvers",
+      "description": "GitHub logins of the humans whose approval is required before an agent merges a pull request, separated by commas (for example: alice,bob). Leave empty to turn the merge guard off.",
+      "default": ""
+    }
+  }
+}

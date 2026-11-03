@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img" aria-label="agent-team-guardrails: one human, a tree of AI agents, and three guardrails between them and GitHub">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .title { font-size: 38px; font-weight: 700; fill: #f8fafc; }
+    .sub { font-size: 19px; fill: #94a3b8; }
+    .node { font-size: 15px; font-weight: 600; fill: #0f172a; }
+    .cardt { font-size: 18px; font-weight: 700; fill: #f8fafc; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .cardd { font-size: 15px; fill: #cbd5e1; }
+    .lbl { font-size: 13px; fill: #64748b; letter-spacing: 1px; }
+  </style>
+  <rect width="1200" height="520" rx="24" fill="#0f172a"/>
+
+  <text x="56" y="78" class="title">agent-team-guardrails</text>
+  <text x="56" y="112" class="sub">Run a team of AI agents on GitHub without losing control.</text>
+
+  <!-- The team -->
+  <text x="56" y="168" class="lbl">THE TEAM</text>
+  <g stroke="#475569" stroke-width="2" fill="none">
+    <path d="M226 228 V256 M226 256 H136 V284 M226 256 H316 V284"/>
+    <path d="M136 322 V350 M136 350 H86 V378 M136 350 H186 V378"/>
+    <path d="M316 322 V350 M316 350 H266 V378 M316 350 H366 V378"/>
+  </g>
+  <rect x="156" y="190" width="140" height="38" rx="19" fill="#fbbf24"/>
+  <text x="226" y="215" class="node" text-anchor="middle">1 human</text>
+  <rect x="76" y="284" width="120" height="38" rx="10" fill="#93c5fd"/>
+  <text x="136" y="309" class="node" text-anchor="middle">lead agent</text>
+  <rect x="256" y="284" width="120" height="38" rx="10" fill="#93c5fd"/>
+  <text x="316" y="309" class="node" text-anchor="middle">lead agent</text>
+  <g fill="#cbd5e1">
+    <rect x="50" y="378" width="72" height="32" rx="8"/><rect x="150" y="378" width="72" height="32" rx="8"/>
+    <rect x="230" y="378" width="72" height="32" rx="8"/><rect x="330" y="378" width="72" height="32" rx="8"/>
+  </g>
+  <g class="node" text-anchor="middle" style="font-size:13px">
+    <text x="86" y="399">agent</text><text x="186" y="399">agent</text>
+    <text x="266" y="399">agent</text><text x="366" y="399">agent</text>
+  </g>
+  <text x="226" y="452" class="cardd" text-anchor="middle">one shared bot account on GitHub</text>
+
+  <!-- Arrow -->
+  <path d="M444 300 H488" stroke="#475569" stroke-width="3"/>
+  <path d="M488 290 L504 300 L488 310 Z" fill="#475569"/>
+
+  <!-- Guardrails -->
+  <text x="530" y="168" class="lbl">THREE GUARDRAILS</text>
+  <rect x="530" y="186" width="614" height="88" rx="14" fill="#1e293b" stroke="#f87171" stroke-width="2"/>
+  <text x="556" y="221" class="cardt">signature-is-not-proof</text>
+  <text x="556" y="251" class="cardd">Only the human's own account can approve. Merges wait until it does.</text>
+
+  <rect x="530" y="290" width="614" height="88" rx="14" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+  <text x="556" y="325" class="cardt">single-writer-status</text>
+  <text x="556" y="355" class="cardd">One sentence per pull request, one writer. No conflicts on STATUS.md.</text>
+
+  <rect x="530" y="394" width="614" height="88" rx="14" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+  <text x="556" y="429" class="cardt">blind-spot-advisor</text>
+  <text x="556" y="459" class="cardd">Raises the questions nobody asked, before they become expensive.</text>
+</svg>

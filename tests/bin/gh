@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Fake gh for the tests. Answers from JSON fixtures in $FAKE_GH_DIR and applies
+# --jq / -q with the real jq, so the filters in the scripts are tested for real.
+# A fixture named <name>-<pr>.json, when present, answers for that pull request only.
+set -u
+echo "$*" >> "$FAKE_GH_DIR/calls.log"
+
+expr=""
+prev=""
+for a in "$@"; do
+  case "$prev" in -q|--jq) expr="$a" ;; esac
+  prev="$a"
+done
+
+fixture=""; pr=""
+case "$1 ${2:-}" in
+  "repo view") fixture=repo ;;
+  "pr view")
+    case " $* " in
+      *headRefOid*) fixture=pr; pr=$(printf '%s' "$*" | sed -nE 's/^pr view ([0-9]+).*/\1/p') ;;
+      *) fixture=current-pr ;;
+    esac ;;
+  "pr list") fixture=prs ;;
+  api\ *)
+    case " $* " in
+      *"/reviews "*) fixture=reviews; pr=$(printf '%s' "$*" | sed -nE 's#.*/pulls/([0-9]+)/reviews.*#\1#p') ;;
+      *) fixture=api ;;
+    esac ;;
+  *) echo "fake gh: unsupported command: $*" >&2; exit 1 ;;
+esac
+
+file="$FAKE_GH_DIR/$fixture.json"
+[ -n "$pr" ] && [ -f "$FAKE_GH_DIR/$fixture-$pr.json" ] && file="$FAKE_GH_DIR/$fixture-$pr.json"
+[ -f "$file" ] || { echo "fake gh: no fixture $fixture" >&2; exit 1; }
+if [ -n "$expr" ]; then
+  jq -r "$expr" < "$file"
+else
+  cat "$file"
+fi
